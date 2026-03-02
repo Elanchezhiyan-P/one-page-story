@@ -768,6 +768,14 @@
     </div>
   </section>
 
+  <!-- Soft music button -->
+  <div style="text-align:center; margin-top:2rem;">
+    <button onclick="startMusic()"
+      style="padding:10px 20px; border-radius:25px; border:none; background:#ff8fab; color:white; cursor:pointer; font-size:0.85rem;">
+      🎵 Play Something
+    </button>
+  </div>
+
   <!-- ═══ MESSAGE – ANKLET QUOTE CARD ═══ -->
   <section class="message-section" style="background: linear-gradient(var(--bg), var(--bg2));">
     <div class="anklet-wrapper">
@@ -921,8 +929,6 @@
           setTimeout(function () { el.classList.add('revealed'); }, delay);
         })(items[i], i * 400);
       }
-      // Start music right after preloader completes
-      startMusic();
     }
 
     // ── Scroll reveal ──
@@ -975,7 +981,6 @@
     }
 
     var birthdayCelebrated = true;
-    var musicStarted = false;
 
     function updateCountdown() {
       var now = getIST();
@@ -1017,35 +1022,12 @@
 
     // ── Background music helpers ──
     function startMusic() {
-      if (musicStarted) return;
       var audio = document.getElementById('bgMusic');
       if (!audio) return;
 
-      // Start from 0:11 (11 seconds) into the track
-      function setStartTime() {
-        try {
-          audio.currentTime = 23;
-        } catch (e) {
-          // Ignore if setting time fails
-        }
-      }
-      if (audio.readyState > 0) {
-        setStartTime();
-      } else {
-        audio.addEventListener('loadedmetadata', setStartTime, { once: true });
-      }
-
-      musicStarted = true;
-      var playPromise = audio.play();
-      if (playPromise && playPromise.catch) {
-        playPromise.catch(function () {
-          // Browser may block autoplay; ignore the error.
-        });
-      }
+      audio.currentTime = 23; // start from 23 seconds
+      audio.play();
     }
-
-    // Fallback: start on first user interaction if autoplay is blocked
-    document.addEventListener('click', startMusic, { once: true });
 
     // ── Effects Canvas (sparkle-only particles) ──
     var canvas = document.getElementById('effectsCanvas');

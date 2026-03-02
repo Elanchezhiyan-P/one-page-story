@@ -1021,13 +1021,23 @@
     updateCountdown();
 
     // ── Background music helpers ──
-    function startMusic() {
-      var audio = document.getElementById('bgMusic');
-      if (!audio) return;
+function startMusic() {
+  const audio = document.getElementById("bgMusic");
+  if (!audio) return;
 
-      audio.currentTime = 23; // start from 23 seconds
-      audio.play();
-    }
+  audio.volume = 0.7;
+
+  // Wait until metadata is loaded before setting currentTime
+  if (audio.readyState >= 1) {
+    audio.currentTime = 23;
+    audio.play().catch(err => console.log("Playback blocked:", err));
+  } else {
+    audio.addEventListener("loadedmetadata", function () {
+      audio.currentTime = 23;
+      audio.play().catch(err => console.log("Playback blocked:", err));
+    }, { once: true });
+  }
+}
 
     // ── Effects Canvas (sparkle-only particles) ──
     var canvas = document.getElementById('effectsCanvas');

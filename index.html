@@ -882,7 +882,7 @@
     window.scrollTo(0, 0);
 
     // Birthday: March 3, 2026, 12:00 AM IST
-    const BIRTHDAY = { year: 2026, month: 2, day: 3, hour: 0 };
+   const BIRTHDAY = { year: 2026, month: 2, day: 3, hour: 0 };
 
     // ── Preloader ──
     window.addEventListener('load', function () {
@@ -980,7 +980,7 @@
       return new Date(BIRTHDAY.year, BIRTHDAY.month, BIRTHDAY.day, 23, 59, 59, 999);
     }
 
-    var birthdayCelebrated = true;
+    var birthdayCelebrated = false;
 
     function updateCountdown() {
       var now = getIST();
@@ -1061,7 +1061,7 @@ function startMusic() {
 
     // Check if birthday is already active on load
     setTimeout(function () {
-      var now = getIST();
+      var now = new Date();
       if (now >= getBirthdayStart() && now <= getBirthdayEnd() && !birthdayCelebrated) {
         birthdayCelebrated = true;
         triggerCelebration();
